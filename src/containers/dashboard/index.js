@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { mebleService } from "services";
 
+import Cards from "components/cards";
+
+import "./index.css";
+
 const Dashboard = () => {
   const [data, setData] = useState({});
   useEffect(() => {
@@ -18,7 +22,13 @@ const Dashboard = () => {
 
   try {
     if (Object.keys(data).length) {
-      return data.products.map((item, key) => <div key={key}>{item.name}</div>);
+      return (
+        <div className="wrapper-card">
+          {data.products.map((item, key) => (
+            <Cards key={key} data={item} />
+          ))}
+        </div>
+      );
     } else {
       return <div>Loading...</div>;
     }
