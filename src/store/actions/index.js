@@ -1,0 +1,1 @@
+export { setActiveFilter } from "./filterAction";
