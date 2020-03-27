@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { get } from "lodash";
 import { mebleService } from "services";
 
+import ActiveFilters from "components/activeFilters";
 import SearchComponent from "components/searchByName";
 import Cards from "components/cards";
 
@@ -22,7 +24,9 @@ const Dashboard = ({ activeFilter }) => {
   const filterByName = () => {
     if (Object.keys(data).length) {
       const currentData = data.filter(item =>
-        item.name.toLowerCase().includes(activeFilter.name.toLowerCase())
+        item.name
+          .toLowerCase()
+          .includes(get(activeFilter, "name", "").toLowerCase())
       );
       setData(currentData);
     }
@@ -41,20 +45,21 @@ const Dashboard = ({ activeFilter }) => {
   }, [activeFilter.name]);
 
   try {
-    if (Object.keys(data).length) {
-      return (
-        <>
-          <SearchComponent />
+    return (
+      <>
+        <SearchComponent />
+        <ActiveFilters />
+        {!!Object.keys(data).length ? (
           <div className="wrapper-card">
             {data.map((item, key) => (
               <Cards key={key} data={item} />
             ))}
           </div>
-        </>
-      );
-    } else {
-      return <div>Loading...</div>;
-    }
+        ) : (
+          <div>No data found</div>
+        )}
+      </>
+    );
   } catch (error) {
     console.error(error);
     return <div>Oops There is something wrong</div>;

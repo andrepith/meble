@@ -9,10 +9,6 @@ const SearchComponent = ({ setActiveFilter, activeFilter }) => {
     setNameToFilter(e.target.value);
   };
 
-  const handleRemove = () => {
-    setActiveFilter({ ...activeFilter, name: "" });
-  };
-
   const setNameToFilter = debounce(name => {
     setActiveFilter({ ...activeFilter, name });
   }, 300);
@@ -20,7 +16,6 @@ const SearchComponent = ({ setActiveFilter, activeFilter }) => {
   return (
     <>
       <input onChange={handleChange} />
-      <button onClick={handleRemove}>Remove</button>
     </>
   );
 };
