@@ -1,4 +1,5 @@
 {
+  "homepage": "https://andrepith.github.io/meble",
   "name": "meble",
   "version": "0.1.0",
   "private": true,
@@ -22,7 +23,8 @@
     "build": "NODE_PATH=src/ react-scripts build",
     "test": "NODE_PATH=src/ react-scripts test",
     "eject": "NODE_PATH=src/ react-scripts eject",
-    "deploy": "NODE_PATH=src/ gh-pages -d build"
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
