@@ -1,0 +1,11 @@
+.wrapper-search {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.search__input {
+  padding: 8px;
+  width: 32rem;
+  border: none;
+  border-bottom: 1px solid #c7c6c6;
+}

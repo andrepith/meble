@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { debounce } from "lodash";
 import { setActiveFilter } from "store/actions";
 
+import "./index.css";
+
 const SearchComponent = ({ setActiveFilter, activeFilter }) => {
   const handleChange = e => {
     e.preventDefault();
@@ -14,9 +16,13 @@ const SearchComponent = ({ setActiveFilter, activeFilter }) => {
   }, 300);
 
   return (
-    <>
-      <input onChange={handleChange} />
-    </>
+    <div className="wrapper-search">
+      <input
+        className="search__input"
+        onChange={handleChange}
+        placeholder="Search by name...."
+      />
+    </div>
   );
 };
 
