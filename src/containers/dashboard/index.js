@@ -6,17 +6,22 @@ import { mebleService } from "services";
 import ActiveFilters from "components/activeFilters";
 import SearchComponent from "components/searchByName";
 import DeliveryFilter from "components/deliveryFilter";
+import FurnitureStylesFilter from "components/furnitureStylesFilter";
 import Cards from "components/cards";
 
 import "./index.css";
 
 const Dashboard = ({ activeFilter }) => {
+  const [defaultData, setDefaultData] = useState({});
   const [data, setData] = useState({});
+  const [styles, setStyles] = useState([]);
 
   const fetchApi = async () => {
     try {
       const res = await mebleService();
+      setDefaultData(res.products);
       setData(res.products);
+      setStyles(res.furniture_styles);
     } catch (error) {
       console.error(error);
     }
@@ -31,9 +36,6 @@ const Dashboard = ({ activeFilter }) => {
       );
       setData(currentData);
     }
-    if (!activeFilter.name) {
-      fetchApi();
-    }
   };
 
   const filterByDelivery = () => {
@@ -46,8 +48,18 @@ const Dashboard = ({ activeFilter }) => {
       );
       setData(currentData);
     }
-    if (!activeFilter.delivery) {
-      fetchApi();
+  };
+
+  const filterByFurnitureStyles = () => {
+    if (Object.keys(data).length && !!activeFilter.furnitureStyles) {
+      const furnitureStyles = get(activeFilter, "furnitureStyles", []).map(
+        item => item.name
+      );
+      const filtered = new Set(furnitureStyles);
+      const currentData = data.filter(item =>
+        item.furniture_style.some(filter => filtered.has(filter))
+      );
+      setData(currentData);
     }
   };
 
@@ -57,19 +69,20 @@ const Dashboard = ({ activeFilter }) => {
 
   useEffect(() => {
     filterByName();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeFilter.name]);
-
-  useEffect(() => {
     filterByDelivery();
+    filterByFurnitureStyles();
+    if (!Object.keys(activeFilter).length) {
+      setData(defaultData);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeFilter.delivery]);
+  }, [activeFilter]);
 
   try {
     return (
       <>
         <SearchComponent />
         <DeliveryFilter />
+        <FurnitureStylesFilter styles={styles} />
         <ActiveFilters />
         {!!Object.keys(data).length ? (
           <div className="wrapper-card">

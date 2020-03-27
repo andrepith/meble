@@ -25,8 +25,18 @@ const ActiveFilters = ({ activeFilter, setActiveFilter }) => {
               </span>
             );
           })}
+        {!!get(activeFilter, "furnitureStyles", []).length &&
+          activeFilter.furnitureStyles.map((item, key) => {
+            return (
+              <span key={key} className="filter-tag">
+                {item.name}
+              </span>
+            );
+          })}
         {!!isActive &&
-          (activeFilter.name || !!get(activeFilter, "delivery", []).length) && (
+          (activeFilter.name ||
+            !!get(activeFilter, "delivery", []).length ||
+            !!get(activeFilter, "furnitureStyles", []).length) && (
             <span className="filter-tag filter-remove" onClick={handleRemove}>
               Remove all
             </span>
