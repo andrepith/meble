@@ -79,10 +79,12 @@ const Dashboard = ({ activeFilter }) => {
 
   try {
     return (
-      <>
+      <div className="wrapper-app">
         <SearchComponent />
-        <DeliveryFilter />
-        <FurnitureStylesFilter styles={styles} />
+        <div className="wrapper-filter">
+          <DeliveryFilter />
+          <FurnitureStylesFilter styles={styles} />
+        </div>
         <ActiveFilters />
         {!!Object.keys(data).length ? (
           <div className="wrapper-card">
@@ -93,7 +95,7 @@ const Dashboard = ({ activeFilter }) => {
         ) : (
           <div></div>
         )}
-      </>
+      </div>
     );
   } catch (error) {
     console.error(error);
