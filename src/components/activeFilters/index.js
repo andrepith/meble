@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { get } from "lodash";
 import { setActiveFilter } from "store/actions";
 
 import "./index.css";
@@ -16,11 +17,20 @@ const ActiveFilters = ({ activeFilter, setActiveFilter }) => {
         {!!activeFilter.name && (
           <span className="filter-tag">name: {activeFilter.name}</span>
         )}
-        {!!isActive && (
-          <span className="filter-tag filter-remove" onClick={handleRemove}>
-            Remove all
-          </span>
-        )}
+        {!!get(activeFilter, "delivery", []).length &&
+          activeFilter.delivery.map((item, key) => {
+            return (
+              <span key={key} className="filter-tag">
+                {item.name}
+              </span>
+            );
+          })}
+        {!!isActive &&
+          (activeFilter.name || !!get(activeFilter, "delivery", []).length) && (
+            <span className="filter-tag filter-remove" onClick={handleRemove}>
+              Remove all
+            </span>
+          )}
       </div>
     );
   }
